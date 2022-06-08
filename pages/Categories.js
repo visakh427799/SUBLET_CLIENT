@@ -14,7 +14,9 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import UserNavbar from '../Components/userNavbar'
+import UserNavbarHome from '../Components/userNavbarHome'
 import Link from 'next/link'
+import {useState,useEffect} from 'react'
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -61,10 +63,26 @@ const Search = styled('div')(({ theme }) => ({
 
 
 function Categories() {
+
+  const [user,setUser]=useState(false)
+
+  useEffect(()=>{
+    let user_id=localStorage.getItem("user_id")
+    if(user_id){
+      setUser(true)
+ 
+    }
+   },[])
+
   return (
     <div>
-      
-   <UserNavbar/>
+      {
+        user?
+        <UserNavbar/>:
+        <UserNavbarHome/>
+
+      }
+  
    <h3 class="font-medium leading-tight text-center text-2xl mt-0 mb-2 text-blue-600 pt-4">CATEGORIES</h3>
     <div className="container mx-auto max-w-full">
     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 mb-4">

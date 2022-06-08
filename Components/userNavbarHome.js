@@ -7,7 +7,7 @@
   import { useEffect,useState } from 'react'
   // import axios from 'axios'
   const navigation = [
-    { name: 'Categories', href: '/', current: false },
+    { name: 'Categories', href: '/Categories', current: false },
     { name: 'Sign in', href: '/signin', current: false },
     { name: 'Sign up', href: '/signup', current: false },
     

@@ -1,12 +1,29 @@
 import React from 'react'
-import Link from 'next/link'
-import Services from '../Components/services'
+import {useState,useEffect} from 'react'
 import UserNavbarHome from '../Components/userNavbarHome'
-
+import UserNavbar from '../Components/userNavbar'
 function home() {
+
+  const [user,setUser]=useState(false)
+
+  useEffect(()=>{
+    let user_id=localStorage.getItem("user_id")
+    if(user_id){
+      setUser(true)
+ 
+    }
+   },[])
+
+
   return (
-    <>
-    <UserNavbarHome/>
+    <div>
+      {
+      user?
+      <UserNavbar/>:
+         <UserNavbarHome/>
+
+    }
+   
     <div className="relative bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
@@ -72,7 +89,7 @@ function home() {
         </div>
       </div>
       
-     <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/1 mt-10" style={{marginRight:"50px",borderRadius:"3px"}}>
+     <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/1 mt-10" style={{marginRight:"50px",marginTop:"100px",borderRadius:"3px"}}>
         <img className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://wallpapercave.com/wp/wp8466031.jpg" alt=""/>
     </div>
 
@@ -91,7 +108,7 @@ function home() {
       </div>*/}
    
 
-    </>
+    </div>
  
     
   )

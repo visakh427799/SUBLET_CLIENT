@@ -50,3 +50,9 @@ a {
 .colored-toast .swal2-html-container {
   color: white;
 }
+span{
+  cursor: pointer;
+}
+a{
+  cursor: pointer;
+}

@@ -28,6 +28,7 @@ function signup() {
     email: "",
     phone: "",
     password: "",
+    usertype:""
   });
 
   const handleChange = (e) => {
@@ -38,14 +39,18 @@ function signup() {
       user.name == "" ||
       user.email == "" ||
       user.phone == "" ||
-      user.password == ""
+      user.password == ""||
+      user.usertype== ""
     ) {
       Toast.fire({
         icon: "error",
         title: "Please fill all the fields...!!",
       });
     } else {
-      axios.post("http://localhost:5000/user/signup", user).then((resp) => {
+
+      if(user.usertype=="user"){
+       
+        axios.post("http://localhost:5000/user/signup", user).then((resp) => {
         if (resp.data.success) {
           Toast.fire({
             icon: "success",
@@ -60,7 +65,26 @@ function signup() {
           });
         }
       });
+       } else{
+       
+       axios.post("http://localhost:5000/vendor/signup", user).then((resp) => {
+        if (resp.data.success) {
+          Toast.fire({
+            icon: "success",
+            title: "Registered successfully",
+          });
+          localStorage.setItem("vendor_id", resp.data.vendor_id);
+          router.push("/Categories");
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: resp.data.message,
+          });
+        }
+      });
+      }
     }
+      
   };
 
   return (
@@ -158,6 +182,33 @@ function signup() {
                 />
               </div>
             </div>
+            <div class="flex justify-center">
+                <div class="mt-4 xl:w-96">
+                  <select
+                    onChange={handleChange}
+                    name="usertype"
+                    class="form-select appearance-none
+                    block
+                    w-full
+                    px-3
+                    py-1.5
+                    text-base
+                    font-normal
+                    text-gray-700
+                    bg-white bg-clip-padding bg-no-repeat
+                    border border-solid border-gray-300
+                    rounded
+                    transition
+                    ease-in-out
+                    m-0
+                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                    {/* <option selected>Select type</option> */}
+                    <option value="user" name="usertype">user</option>
+                    <option value="vendor" name="usertype">vendor</option>
+                  </select>
+                </div>
+              </div>
+
 
             <div className="flex items-center justify-between">
               <button

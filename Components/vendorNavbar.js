@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import axios from 'axios'
 const navigation = [
   { name: "Home", href: "/", current: false },
+  { name: "Add Rentals", href: "/vendor/AddRentals", current: false },
+
  
 ];
 
@@ -14,16 +16,16 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function userNavbar() {
+export default function vendorNavbar() {
   const router = useRouter();
-  const [user, setUser] = useState({});
+  const [vendor, setVendor] = useState({});
 
  useEffect(()=>{
-   let user_id=localStorage.getItem("user_id")
-   if(user_id){
-     axios.post('http://localhost:5000/user/getUser',{user_id}).then((resp)=>{
+   let vendor_id=localStorage.getItem("vendor_id")
+   if(vendor_id){
+     axios.post('http://localhost:5000/vendor/getVendor',{vendor_id}).then((resp)=>{
        if(resp.data.success){
-         setUser(resp.data.user)
+         setVendor(resp.data.vendor)
        }
      })
 
@@ -31,11 +33,13 @@ export default function userNavbar() {
   },[])
 
   const handleLogout = () => {
-    localStorage.removeItem("user_id");
+    localStorage.removeItem("vendor_id");
     router.push("/signin");
   };
 
   return (
+
+
     <Disclosure as="nav" className="bg-blue-900">
       {({ open }) => (
         <>
@@ -80,8 +84,8 @@ export default function userNavbar() {
                 {/* Profile dropdown */}
 
                 {
-                  user!={}?
-                  <button type="button" class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out">{user.email}</button>
+                  vendor!={}?
+                  <button type="button" class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out">{vendor.email}</button>
                    :""
                 }
 
