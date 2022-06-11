@@ -74,7 +74,7 @@ function signup() {
             title: "Registered successfully",
           });
           localStorage.setItem("vendor_id", resp.data.vendor_id);
-          router.push("/Categories");
+          router.push("/vendor/VendorProfile");
         } else {
           Toast.fire({
             icon: "error",

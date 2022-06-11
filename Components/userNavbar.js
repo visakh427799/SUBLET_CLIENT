@@ -7,7 +7,11 @@ import { useEffect, useState } from "react";
 import axios from 'axios'
 const navigation = [
   { name: "Home", href: "/", current: false },
- 
+  { name: "Categories", href: "/Categories", current: false },
+
+  { name: "Cart", href: "/Cart", current: false },
+  { name: "Appartments", href: "/Appartment", current: false },
+     
 ];
 
 function classNames(...classes) {
@@ -16,7 +20,7 @@ function classNames(...classes) {
 
 export default function userNavbar() {
   const router = useRouter();
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(false);
 
  useEffect(()=>{
    let user_id=localStorage.getItem("user_id")
@@ -32,7 +36,9 @@ export default function userNavbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("user_id");
+    setUser(false)
     router.push("/signin");
+    
   };
 
   return (
@@ -74,16 +80,17 @@ export default function userNavbar() {
                   </div>
                 </div>
               </div>
+              { user?
               <div className="absolute  right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {/* <button type="button" onClick={handleLogout} class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out">Logout</button> */}
 
                 {/* Profile dropdown */}
 
-                {
-                  user!={}?
+              
+                 
                   <button type="button" class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out">{user.email}</button>
-                   :""
-                }
+                  
+                
 
                 <Menu as="div" className="ml-3 relative">
                 <div>
@@ -135,7 +142,8 @@ export default function userNavbar() {
                     </Menu.Items>
                   </Transition>
                 </Menu>
-              </div>
+              </div>:<></>
+          }
             </div>
           </div>
 

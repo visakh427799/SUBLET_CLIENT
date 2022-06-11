@@ -26,11 +26,23 @@ import Snackbar from '@mui/material/Snackbar';
 //import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert from '@mui/material/Alert';
+import Swal from 'sweetalert2'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 function Appartment() {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "bottom-left",
+    iconColor: "white",
+    customClass: {
+      popup: "colored-toast",
+    },
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+  });
 
 
     const ExpandMore = styled((props) => {
@@ -48,16 +60,26 @@ function Appartment() {
     const router = useRouter()
     
     useEffect(()=>{
-       axios.get('http://localhost:5000/user/getallAppartments').then((resp)=>{
-            if(resp.data.data){
-               setAppartments(resp.data.data)
-                console.log(resp.data.data);
-            }
-       }).catch((err)=>{
-           console.log(err);
 
-       })
+      let u_id=localStorage.getItem('user_id')
+      // if(u_id){
+        axios.get('http://localhost:5000/user/getallAppartments').then((resp)=>{
+          if(resp.data.data){
+             setAppartments(resp.data.data)
+              console.log(resp.data.data);
+          }
+     }).catch((err)=>{
+         console.log(err);
 
+     })
+
+      // }
+      // else{
+      //   router.push('/signin')
+      // }
+
+
+      
     },[])
       
      
@@ -67,16 +89,34 @@ function Appartment() {
           setExpanded(!expanded);
         };
 
-        // const handleChange=(e)=>{
+        const handleChange=(e)=>{
 
-        //       let input=e.target.value;
-        //       axios.post('http://localhost:5000/searchDoctorBySpec',{input}).then((resp)=>{
-        //         setDoctors(resp.data.data)
-        //         console.log(doctors);
-        //    })
+              let input=e.target.value;
+              axios.post('http://localhost:5000/user/searchByloc',{input}).then((resp)=>{
+                setAppartments(resp.data.data)
+                
+           })
 
-        // }
-        
+        }
+        const addTocart=(a_id)=>{
+          let u_id=localStorage.getItem('user_id')
+          if(u_id){
+
+            axios.post('http://localhost:5000/user/addTocart',{u_id,a_id}).then((resp)=>{
+              if(resp.data.success){
+                Toast.fire({
+                  icon: "success",
+                  title: " Added to cart successfully",
+                });
+              }
+  
+            })
+          }
+          else{
+            router.push('/signin')
+          }
+    
+        }
        
 
         const handleClose =()=>{
@@ -89,77 +129,115 @@ function Appartment() {
     <div>
         <UserNavbar/>
         <div>
+   <h3 class="font-medium leading-tight text-center text-2xl mt-0  text-blue-600 pt-4">APPARTMENTS</h3>
+
            <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-2">
            <div className="max-w-md w-full space-y-8 w-80">
          
            <input
                   id="pasword"
-                  // onChange={handleChange}
+                  onChange={handleChange}
                   
                   required
-                  className="mt-8 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="mt-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Search appartments by location..."
             />
             </div>
             </div>    
         </div>
-        <div className="container mx-auto max-w-full mt-5 ml-4 mb-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 mb-4 mt-4">
+        {/* <div className="container mx-auto max-w-full mt-2 ml-4 mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 mb-4 mt-1"> */}
+         <div className="bg-white">
+      <div className="max-w-2xl mx-auto py-2 px-4 sm:py-18 sm:px-2 lg:max-w-7xl lg:px-2">
+
+        <div className="mt-1 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
         {
             appartments.map((d)=>{
                 return(
-                    <Card sx={{ maxWidth: 300 ,marginTop:"10px" }}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={d.photo}>
+  //                   <Card sx={{ maxWidth: 300 ,marginTop:"10px" }}>
+  //     <CardHeader
+  //       avatar={
+  //         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={d.photo}>
           
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={d.name}
-        subheader={d.specialization}
-      />
-      <CardMedia
-        component="img"
-        height="150"
-        image={d.photo}
-        alt="Paella dish"
-      />
-      <CardContent>
-        {/* <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the mussels,
-          if you like.
-        </Typography> */}
-      </CardContent>
-      <CardActions disableSpacing>
-      <Stack direction="row" spacing={2}>
-      <Button variant="outlined" >
-        View
-      </Button>
-      <Button variant="contained"  >
-        Add to cart
-      </Button>
-    </Stack>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
+  //         </Avatar>
+  //       }
+  //       action={
+  //         <IconButton aria-label="settings">
+  //           <MoreVertIcon />
+  //         </IconButton>
+  //       }
+  //       title={d.name}
+        
+  //     />
+  //     <CardMedia
+  //       component="img"
+  //       height="150"
+  //       image={d.photo}
+  //       alt="Paella dish"
+  //     />
+  //     <CardContent>
+  //     <div class="flex space-x-2 justify-center">
+  //   <span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-orange-400 text-white rounded">{d.city}</span>
+  //   <span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-purple-400 text-white rounded">{d.price +" Rs"}</span>
+  //   <span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-400 text-white rounded">{d.no_rooms+ " Rooms"}</span>
+    
+  // </div>
+  
+       
+  //     </CardContent>
+  //     <CardActions disableSpacing>
+      
+  //     <Stack direction="row" spacing={2}>
+  //       {
+  //         d.is_booked? <Button variant="outlined" >
+  //        Booked
+  //       </Button>:<>
+  //     <Button variant="outlined" >
+  //       View
+  //     </Button>
+  //     <Button variant="outlined" onClick={()=>{addTocart(d._id)}} >
+  //       Add to cart
+  //     </Button></>
+  //       }
+      
+  //   </Stack>
+  //     </CardActions>
+  //     <Collapse in={expanded} timeout="auto" unmountOnExit>
+  //       <CardContent>
          
-        </CardContent>
-      </Collapse>
-    </Card>
+  //       </CardContent>
+  //     </Collapse>
+  //   </Card>
+  <div className="group relative">
+  <div className="w-full min-h-60 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-50 lg:aspect-none">
+    <img
+      src={d.photo}
+      className="w-full h-full object-center object-cover lg:w-full lg:h-full"
+    />
+  </div>
+  <div className="mt-4 flex justify-between">
+    <div>
+      <h3 className="text-lg text-black-700">
+        <a href={d.href}>
+        <p className="text-base font-semibold text-gray-900">  {d.name}</p>
+        <p className="mt-1 text-sm text-gray-500">{d.city}</p>
+        
+        </a>
+      </h3>
+      <span onClick={()=>{addTocart(d._id)}} class="text-xs inline-block py-2 px-3.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded-full">Add to cart</span>
 
+    </div>
+    <p className="mt-1 text-lg font-medium text-gray-900">Rs.{d.price}/-</p>
+
+  </div>
+</div>
                 )
             })
         }
         </div>
         </div>
          
-        
+        </div>
 
     </div>
   )

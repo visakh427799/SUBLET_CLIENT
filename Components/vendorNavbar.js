@@ -7,7 +7,9 @@ import { useEffect, useState } from "react";
 import axios from 'axios'
 const navigation = [
   { name: "Home", href: "/", current: false },
-  { name: "Add Rentals", href: "/vendor/AddRentals", current: false },
+  // { name: "Add Rentals", href: "/vendor/AddRentals", current: false },
+  // { name: "MyRentals", href: "/vendor/MyRentals", current: false },
+  
 
  
 ];
@@ -85,7 +87,7 @@ export default function vendorNavbar() {
 
                 {
                   vendor!={}?
-                  <button type="button" class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out">{vendor.email}</button>
+                  <button type="button" class="inline-block px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out">{vendor.email}</button>
                    :""
                 }
 
@@ -113,7 +115,7 @@ export default function vendorNavbar() {
                     <Menu.Item>
                         {({ active }) => (
                           <a
-                           
+                            onClick={()=>{router.push('/vendor/VendorProfile')}}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"

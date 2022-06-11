@@ -20,7 +20,7 @@ a {
 }
 
 .colored-toast.swal2-icon-success {
-  background-color: #1c7d2a !important;
+  background-color: #2cad40 !important;
 }
 
 .colored-toast.swal2-icon-error {
@@ -55,4 +55,9 @@ span{
 }
 a{
   cursor: pointer;
+}
+input{
+  font-size: 10px;
+  padding-left: 20px;
+  color:#2a56e7
 }

@@ -1,10 +1,12 @@
 import React from 'react'
 import VendorNavbar from "../../Components/vendorNavbar"
 import {useState,useEffect} from 'react'
+import {useRouter}  from 'next/router'
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Swal from 'sweetalert2';
 import axios from 'axios'
+
 
 function AddRentals() {
     const Toast = Swal.mixin({
@@ -24,11 +26,12 @@ function AddRentals() {
         const handleClose = () => {
             setOpen(false);
         };
-       
+       const router =useRouter()
     const [appartment,setAppartment] =useState({
         name:"",
         photo:"",
         address:"",
+        phone:"",
         no_rooms:"",
         city:"",
         pincode:"",
@@ -41,6 +44,20 @@ function AddRentals() {
        setAppartment({...appartment,[e.target.name]:e.target.value})
     }
     const handleSubmit=()=>{
+
+    
+      if(appartment.name=="" ||appartment.photo=="" || 
+      appartment.address==""||appartment.no_rooms==""||appartment.street==""||
+      appartment.city==""||appartment.pincode==""||appartment.rate==""||
+      appartment.phone==""||appartment.google_map_url==""
+      ){
+        console.log(appartment);
+        Toast.fire({
+          icon: "error",
+          title: "Please fill all fields...!!",
+        });
+      }
+      else{
         setOpen(true)
         let vendor_id=localStorage.getItem('vendor_id')
         axios.post('http://localhost:5000/vendor/add-appartment',{appartment,vendor_id}).then((resp)=>{
@@ -50,6 +67,18 @@ function AddRentals() {
                     icon: "success",
                     title: "Appartment added",
                   });
+                  setAppartment({
+                    name:"",
+                    photo:"",
+                    address:"",
+                    phone:"",
+                    no_rooms:"",
+                    city:"",
+                    pincode:"",
+                    street:"",
+                    rate:"",
+                    google_map_url:"",
+                })
             }else{
                 setOpen(false);
                 Toast.fire({
@@ -59,6 +88,8 @@ function AddRentals() {
             }
 
         })
+
+      }
         
 
     }
@@ -74,15 +105,26 @@ function AddRentals() {
       </Backdrop>
       
      
-        <div className="mt-10 sm:mt-0" >
-            <h6 style={{textAlign:"center",color:"blue",fontWeight:"10px"}}>ADD APARTMENT</h6>
-        <div style={{width:"1000px",height:"500px",marginLeft:"340px",marginTop:"40px"}}  >
+        <div className="mt-10 sm:mt-0" style={{  
+  backgroundImage: "url(" + "https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80" + ")",
+  backgroundPosition: 'center',
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat'
+}}>
+   <h3 class="font-medium leading-tight text-center text-2xl mt-0  text-white pt-4">ADD APPARTMENT</h3>
+   <div class="flex space-x-2 justify-center mt-2">
+    <span onClick={()=>{router.push('/vendor/AddRentals')}} class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-blue-600 text-white rounded">Add Rentals</span>
+    <span onClick={()=>{router.push('/vendor/MyRentals')}} class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-purple-600 text-white rounded">My Rentals</span>
+    <span onClick={()=>{router.push('/vendor/MyCustomers')}} class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded">My Customers</span>
+    
+  </div>
+        <div style={{width:"1000px",height:"500px",marginLeft:"340px",marginTop:"20px"}}  >
         <div className="md:grid md:grid-cols-3 md:gap-6">
           
-          <div className="mt-5 md:mt-0 md:col-span-2">
+          <div className="mt-3 md:mt-0 md:col-span-2">
             <div>
-              <div className="shadow overflow-hidden sm:rounded-md">
-                <div className="px-4 py-5 bg-white sm:p-6">
+              <div className="shadow overflow-hidden sm:rounded-md"  >
+                <div className="px-4 py-5 bg-white sm:p-6" style={{backgroundColor:"#ededed"}}>
                   <div className="grid grid-cols-6 gap-6">
                     <div className="col-span-6 sm:col-span-3">
                       <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">
@@ -91,6 +133,7 @@ function AddRentals() {
                       <input
                         type="text"
                         name="name"
+                        value={appartment.name}
                         onChange={handleChange}
                         id="first-name"
                         autoComplete="given-name"
@@ -105,10 +148,11 @@ function AddRentals() {
                       <input
                         type="number"
                         name="rate"
+                        value={appartment.rate}
                         onChange={handleChange}
                         id="last-name"
                         autoComplete="family-name"
-                        className="pt-4 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className="pt-2  pb-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
                     <div className="col-span-6 sm:col-span-3">
@@ -118,10 +162,11 @@ function AddRentals() {
                       <input
                         type="text"
                         name="google_map_url"
+                        value={appartment.google_map_url}
                         onChange={handleChange}
                         id="first-name"
                         autoComplete="given-name"
-                        className="pt-4 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className="pt-2  pb-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
 
@@ -130,12 +175,13 @@ function AddRentals() {
                         phone
                       </label>
                       <input
-                        type="text"
+                        type="number"
                         name="phone"
+                        value={appartment.phone}
                         onChange={handleChange}
                         id="last-name"
                         autoComplete="family-name"
-                        className="pt-4 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className="pt-2  pb-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
 
@@ -148,10 +194,11 @@ function AddRentals() {
                       <input
                         type="number"
                         name="no_rooms"
+                        value={appartment.no_rooms}
                         onChange={handleChange}
                         id="last-name"
                         autoComplete="family-name"
-                        className="pt-4 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className="pt-2  pb-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
                     <div className="col-span-6 sm:col-span-3">
@@ -161,10 +208,11 @@ function AddRentals() {
                       <input
                         type="text"
                         name="photo"
+                        value={appartment.photo}
                         onChange={handleChange}
                         id="last-name"
                         autoComplete="family-name"
-                        className="pt-4 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className="pt-2  pb-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
 
@@ -175,11 +223,12 @@ function AddRentals() {
                       <input
                         type="text"
                         name="address"
+                        value={appartment.address}
                         onChange={handleChange}
 
                         id="street-address"
                         autoComplete="street-address"
-                        className="pt-6 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className="pt-2  pb-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
 
@@ -190,10 +239,11 @@ function AddRentals() {
                       <input
                         type="text"
                         name="city"
+                        value={appartment.city}
                         onChange={handleChange}
                         id="city"
                         autoComplete="address-level2"
-                        className="pt-4 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className="pt-2  pb-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
 
@@ -204,10 +254,11 @@ function AddRentals() {
                       <input
                         type="text"
                         name="street"
+                        value={appartment.street}
                         onChange={handleChange}
                         id="region"
                         autoComplete="address-level1"
-                        className="pt-4 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className="pt-2  pb-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
 
@@ -216,12 +267,13 @@ function AddRentals() {
                         Postal code
                       </label>
                       <input
-                        type="text"
+                        type="number"
                         name="pincode"
+                        value={appartment.pincode}
                         onChange={handleChange}
                         id="postal-code"
                         autoComplete="postal-code"
-                        className="pt-4 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        className="pt-2 pb-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
                   </div>
@@ -240,6 +292,9 @@ function AddRentals() {
           </div>
         </div>
         </div>  
+        <div style={{height:"20px"}}>
+
+        </div>
       </div>
  
     </div>
