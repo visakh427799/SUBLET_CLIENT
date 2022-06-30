@@ -202,7 +202,7 @@ function signup() {
                     ease-in-out
                     m-0
                     focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
-                    {/* <option selected>Select type</option> */}
+                    <option selected>Select type</option>
                     <option value="user" name="usertype">user</option>
                     <option value="vendor" name="usertype">vendor</option>
                   </select>

@@ -113,9 +113,9 @@ function AddRentals() {
 }}>
    <h3 class="font-medium leading-tight text-center text-2xl mt-0  text-white pt-4">ADD APPARTMENT</h3>
    <div class="flex space-x-2 justify-center mt-2">
-    <span onClick={()=>{router.push('/vendor/AddRentals')}} class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-blue-600 text-white rounded">Add Rentals</span>
-    <span onClick={()=>{router.push('/vendor/MyRentals')}} class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-purple-600 text-white rounded">My Rentals</span>
-    <span onClick={()=>{router.push('/vendor/MyCustomers')}} class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded">My Customers</span>
+    <span onClick={()=>{router.push('/vendor/AddRentals')}} class="px-4 py-2 rounded-full text-white bg-blue-300 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-blue-500 transition duration-300 ease">Add Rentals</span>
+    <span onClick={()=>{router.push('/vendor/MyRentals')}} class="px-4 py-2 rounded-full text-white bg-blue-300 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-blue-500 transition duration-300 ease">My Rentals</span>
+    <span onClick={()=>{router.push('/vendor/MyBookings')}} class="px-4 py-2 rounded-full text-white bg-blue-300 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-blue-500 transition duration-300 ease">My Customers</span>
     
   </div>
         <div style={{width:"1000px",height:"500px",marginLeft:"340px",marginTop:"20px"}}  >

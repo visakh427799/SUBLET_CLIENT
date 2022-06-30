@@ -2,6 +2,7 @@ import React from 'react'
 import {useState,useEffect} from 'react'
 import UserNavbarHome from '../Components/userNavbarHome'
 import UserNavbar from '../Components/userNavbar'
+import Footer from '../Components/Footer'
 function home() {
 
   const [user,setUser]=useState(false)
@@ -93,21 +94,13 @@ function home() {
         <img className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://wallpapercave.com/wp/wp8466031.jpg" alt=""/>
     </div>
 
-
-      {/*<div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 mt-12">
-        <img className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt=""/>
-</div>*/}
-
-      {/* <div>
-        <h4 className="ml-8 mt-5 tracking-tight font-extrabold text-gray-700 sm:text-2xl md:text-2xl">What would you like to do today</h4>
-      </div> */}
      
     </div>
-   {/* <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/1 mt-10" >
-        <img className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://wallpapercave.com/wp/wp8466031.jpg" alt=""/>
-      </div>*/}
+  
    
-
+{/* <div style={{marginTop:"150px"}}>
+<Footer/>
+</div> */}
     </div>
  
     

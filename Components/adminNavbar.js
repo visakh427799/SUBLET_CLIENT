@@ -10,10 +10,13 @@
     { name: 'Admin', href: '/Categories', current: false },
     { name: 'Vendors', href: '/admin/allVendors', current: false },
     { name: 'Users', href: '/admin/allUsers', current: false },
-   
+    { name: 'Appartments', href: '/admin/AllAppartments', current: false },
+    { name: 'Bookings', href: '/admin/Bookings', current: false },
+
+
     
     
-  ]
+  ] 
   
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')

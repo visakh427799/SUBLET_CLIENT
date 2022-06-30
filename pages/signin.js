@@ -2,15 +2,19 @@ import React from "react";
 import NavbarSignin from "../Components/navbarSignin";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import Dropdown from "../Components/dropdown";
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useRef,useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import Swal from "sweetalert2";
 import axios from "axios";
+
+
+
 import { useRouter } from "next/router";
 
 function signin() {
   const router = useRouter();
+
 
   const Toast = Swal.mixin({
     toast: true,
@@ -60,6 +64,17 @@ function signin() {
         });
      
       }
+      else if(user.usertype=="admin"){
+        if (user.email == "admin@gmail.com" && user.password == "admin"){
+          router.push("/admin/allUsers");
+        }
+        else{
+          Toast.fire({
+            icon: "error",
+            title: "invalid credentials",
+          });
+        }
+      }
       else{
         axios.post("http://localhost:5000/vendor/signin", user).then((resp) => {
           if (resp.data.success) {
@@ -84,6 +99,7 @@ function signin() {
 
   return (
     <div>
+      
       <NavbarSignin />
 
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -148,7 +164,9 @@ function signin() {
                     ease-in-out
                     m-0
                     focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
-                    {/* <option selected>Select type</option> */}
+                    <option selected>Select type</option>
+                    <option value="admin" name="usertype">admin</option>
+
                     <option value="user" name="usertype">user</option>
                     <option value="vendor" name="usertype">vendor</option>
                   </select>

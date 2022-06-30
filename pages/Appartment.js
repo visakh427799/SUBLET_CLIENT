@@ -129,7 +129,9 @@ function Appartment() {
     <div>
         <UserNavbar/>
         <div>
-   <h3 class="font-medium leading-tight text-center text-2xl mt-0  text-blue-600 pt-4">APPARTMENTS</h3>
+   <h3 class="font-medium leading-tight text-center text-xl mt-0  text-blue-600 pt-4">APPARTMENTS
+
+   </h3>
 
            <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-2">
            <div className="max-w-md w-full space-y-8 w-80">
@@ -142,6 +144,12 @@ function Appartment() {
                   className="mt-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Search appartments by location..."
             />
+             <h5 class="font-medium leading-tight text-center text-xl mt-0  text-blue-600 ">
+   <span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-blue-700 text-white rounded-full ml-5">{appartments.length +" "+"results found"}</span>
+             
+
+</h5>
+
             </div>
             </div>    
         </div>
@@ -221,6 +229,8 @@ function Appartment() {
         <a href={d.href}>
         <p className="text-base font-semibold text-gray-900">  {d.name}</p>
         <p className="mt-1 text-sm text-gray-500">{d.city}</p>
+        {/* <p className="mt-1 text-sm text-gray-500">{"added by" +""+d.vendor_id}</p> */}
+
         
         </a>
       </h3>

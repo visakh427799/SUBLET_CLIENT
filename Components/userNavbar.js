@@ -11,6 +11,8 @@ const navigation = [
 
   { name: "Cart", href: "/Cart", current: false },
   { name: "Appartments", href: "/Appartment", current: false },
+  { name: "Rentals", href: "/Rentals", current: false },
+
      
 ];
 

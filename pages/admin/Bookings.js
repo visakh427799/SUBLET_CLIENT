@@ -1,69 +1,122 @@
 import React from 'react'
-import Vendornavbar from '../../Components/vendorNavbar'
-import {useState,useEffect} from 'react'
-import {useRouter} from 'next/router'
-import axios from 'axios'
-function MyRentals() {
-
-   const [rentals,setRentals]=useState([])
-   const router =useRouter()
+import AdminNavbar from '../../Components/adminNavbar'
+import {useEffect,useState} from 'react'
+import axios from 'axios';
+import Swal from 'sweetalert2'
+function Bookings() {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+    const [rentals,setRentals]=useState([])
+    const[approved,setApproved]=useState(false)
     useEffect(()=>{
-         let v_id=localStorage.getItem('vendor_id')
-         axios.post("http://localhost:5000/vendor/getRentals",{v_id}).then((resp)=>{
+       axios.get('http://localhost:5000/admin/getAllrentals').then((resp)=>{
             if(resp.data.success){
-               setRentals(resp.data.rentals)
-              
+                setRentals(resp.data.data)
+                console.log(resp.data.data);
             }
-             console.log(resp.data.success);
-          }
-         )
-    },[])
+       }).catch(()=>{
+
+       })
+
+    },[approved])
+
+    // const handleApprove=(v_id)=>{
+     
+    //   axios.post("http://localhost:5000/admin/approve",{v_id}).then((resp)=>{
+    //     if(resp.data.success){
+    //       console.log(resp.data.success);
+    //       Toast.fire({
+    //         icon: 'success',
+    //         title: 'Approved...!!'
+    //       })
+    //       setApproved(!approved)
+    //     }
+    //     else{
+    //       console.log(resp.data.success);
+
+    //     }
+
+    //   }).catch((err)=>{
+    //     Toast.fire({
+    //       icon: 'error',
+    //       title: 'Something went wrong...!!'
+    //     })
+    //   })
+
+    // }
+    // const handleCancel=(v_id)=>{
+     
+    //     axios.post("http://localhost:5000/admin/cancel",{v_id}).then((resp)=>{
+    //       if(resp.data.success){
+    //         console.log(resp.data.success);
+    //         Toast.fire({
+    //           icon: 'success',
+    //           title: 'Cancelled...!!'
+    //         })
+    //         setApproved(!approved)
+    //       }
+    //       else{
+    //         console.log(resp.data.success);
+  
+    //       }
+  
+    //     }).catch((err)=>{
+    //       Toast.fire({
+    //         icon: 'error',
+    //         title: 'Something went wrong...!!'
+    //       })
+    //     })
+  
+    //   }
   return (
     <div>
-        <Vendornavbar/>
+        <AdminNavbar/>
+   <h3 class="font-medium leading-tight text-center text-2xl mt-0  text-black-600 pt-4">Bookings</h3>
 
-        <h3 class="font-medium leading-tight text-center text-2xl mt-0  text-black-600 pt-4">MY RENTALS</h3>
-        <div class="flex space-x-2 justify-center mt-2">
-    <span onClick={()=>{router.push('/vendor/AddRentals')}} class="px-4 py-2 rounded-full text-white bg-blue-300 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-blue-500 transition duration-300 ease">Add Rentals</span>
-    <span onClick={()=>{router.push('/vendor/MyRentals')}} class="px-4 py-2 rounded-full text-white bg-blue-300 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-blue-500 transition duration-300 ease">My Rentals</span>
-    <span onClick={()=>{router.push('/vendor/MyBookings')}} class="px-4 py-2 rounded-full text-white bg-blue-300 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-blue-500 transition duration-300 ease">My Customers</span>
-    
-  </div>
-<div className="flex flex-col" style={{marginLeft:"50px",marginRight:"50px"}}>
+   <div className="flex flex-col" style={{marginLeft:"50px",marginRight:"50px"}}>
   <div className="overflow-x-auto sm:-mx-6 lg:-mx-8 m-2" >
     <div className="py-4 inline-block min-w-full sm:px-6 lg:px-8">
       <div className="overflow-hidden">
         <table className="min-w-full text-center">
           <thead className="border-b bg-gray-800">
             <tr>
-              <th scope="col" className="text-sm font-medium text-white px-6 py-4">
+              {/* <th scope="col" className="text-sm font-medium text-white px-6 py-4">
               
+              </th> */}
+              <th scope="col" className="text-sm font-medium text-white px-6 py-4">
+               User id
               </th>
               <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-               Name
+                Vendor id
               </th>
               <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-                Rate
+                Date From
               </th>
               <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-                City
-              </th>
-              <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-               No:of Rooms
+               Date To
               </th>
               
               
                <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-              No:of Bookings
+                 No:of Days
               </th>
                <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-               
+                 No: of Days left
                </th>
                <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-               
+                 Total price
                </th>
                <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-               
+                 Payment status
                </th>
   
             </tr>
@@ -75,7 +128,7 @@ function MyRentals() {
                         <tr className="bg-white border-b">
              
             
-             <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+             {/* <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
              <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
                                     src={rent.photo}
@@ -83,18 +136,18 @@ function MyRentals() {
                                     className="h-full w-full object-cover object-center"
                                   />
             </div>
+              </td> */}
+              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {rent.user_id}
               </td>
               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {rent.name}
+                {rent.vendor_id}
               </td>
               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {rent.price}
+                {rent.date_from}
               </td>
               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {rent.city}
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {rent.no_rooms}
+                {rent.date_to}
               </td>
               {/* <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 <a style={{color:"blue"}} href={rent.google_map_url}>View in Map</a>
@@ -103,9 +156,24 @@ function MyRentals() {
                 {rent.phone}
               </td> */}
               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {rent.no_of_bookings}
+                {rent.no_days}
               </td>
               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {rent.no_days_left}
+              </td>
+              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {rent.total_price}
+              </td>
+              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              {
+                 rent.payment_status==true?
+                <span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded-full">Paid</span>:
+                <span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-red-500 text-white rounded-full">Not paid</span>
+
+
+             }
+              </td>
+              {/* <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                <button type="button" class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out">EDIT </button>
                
               </td>
@@ -116,7 +184,7 @@ function MyRentals() {
               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                <button type="button" class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">DELETE </button>
                
-              </td>
+              </td> */}
              
             </tr >
                     )
@@ -139,10 +207,8 @@ function MyRentals() {
     </div>
   </div>
 </div>
-
-
     </div>
   )
 }
 
-export default MyRentals
+export default Bookings

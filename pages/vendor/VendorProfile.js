@@ -61,12 +61,12 @@ function vendorProfile() {
       /></Stack></p> */}
       {
         vendor.is_approved?
-          <div class="flex space-x-2 justify-center">
-    <span onClick={()=>{router.push('/vendor/AddRentals')}} class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-blue-600 text-white rounded">Add Rentals</span>
-    <span onClick={()=>{router.push('/vendor/MyRentals')}} class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-purple-600 text-white rounded">My Rentals</span>
-    <span onClick={()=>{router.push('/vendor/MyCustomers')}} class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded">My Customers</span>
-    
-  </div>:
+        <div class="flex space-x-2 justify-center mt-2">
+        <span onClick={()=>{router.push('/vendor/AddRentals')}} class="px-4 py-2 rounded-full text-white bg-blue-300 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-blue-500 transition duration-300 ease">Add Rentals</span>
+        <span onClick={()=>{router.push('/vendor/MyRentals')}} class="px-4 py-2 rounded-full text-white bg-blue-300 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-blue-500 transition duration-300 ease">My Rentals</span>
+        <span onClick={()=>{router.push('/vendor/MyBookings')}} class="px-4 py-2 rounded-full text-white bg-blue-300 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-blue-500 transition duration-300 ease">My Customers</span>
+        
+      </div>:
    <div className="overflow-hidden" style={{width:"600px",margin:"auto"}}>
    <div class="bg-green-100 rounded-lg py-5 px-6 mb-3 text-base text-green-700 inline-flex items-center w-full" role="alert">
 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check-circle" class="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -86,7 +86,6 @@ You are almost there , but your profile is not approved
         <div className="bg-white shadow overflow-hidden sm:rounded-lg pl-8 " style={{width:"600px",margin:"auto",marginTop:"30px"}}>
         <div className="px-4 py-5 sm:px-6">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Vendor Information</h3>
-          <p className="mt-1 max-w-2xl text-sm text-blue-500">Personal details and other iformatios.</p>
         </div>
         <div className="border-t border-gray-200">
           <dl>
